@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const bcrypt = require("bcryptjs");
 
 const userSchema=mongoose.Schema({
    name:{type:"String",required:true},
@@ -31,6 +32,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   });
 
 
-  const User=mongoose.Model("User",userSchema)
+  const User=mongoose.model("User",userSchema)
 
   module.exports=User 

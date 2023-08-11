@@ -3,8 +3,9 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack, HStack } from "@chakra-ui/layout";
 import { useState } from "react";
-
 import { useToast, Center, Box, Text, Flex, Divider } from "@chakra-ui/react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -13,6 +14,9 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
+
+  
+ 
 
   const submitHandler = async () => {
     setLoading(true);
@@ -35,6 +39,12 @@ const Login = () => {
         },
       };
 
+      const { data } = await axios.post(
+        "http://localhost:8000/api/user/login",
+        { email, password },
+        config
+      );
+
       toast({
         title: "Login Successful",
         status: "success",
@@ -42,8 +52,10 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-
+     
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
+      
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -56,7 +68,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
       <Center h="100vh" w="100vw">
