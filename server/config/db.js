@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 
 
 const connectDatabase = ()=>{
-  mongoose.connect(process.env.db, { useNewUrlParser: true, useUnifiedTopology: true ,w: 'majority' })
+  mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true ,w: 'majority' })
   .then(()=>{
     console.log("Mongoose connected")
   }).catch((error)=>{

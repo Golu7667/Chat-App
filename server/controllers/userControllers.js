@@ -4,7 +4,7 @@ const generateToken=require("../config/generateToken")
 const registerUser=async (req,res)=>{
   
   const {name,email,password,pic}=req.body
-  console.log(name,email)
+ 
   if(!name || !email || !password){
     res.status(400);
     throw new Error("Please Enter all the Feilds")
