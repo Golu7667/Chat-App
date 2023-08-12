@@ -1,3 +1,4 @@
+import React,{ useEffect} from 'react'
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
@@ -5,6 +6,8 @@ import { VStack, HStack } from "@chakra-ui/layout";
 import { useState } from "react";
 import axios from "axios";
 import { useToast, Center, Box, Text, Flex, Divider } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -16,6 +19,19 @@ const Signup = () => {
   const [confirmpassword, setConfirmpassword] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate=useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user){
+      console.log(user)
+      navigate("/chats");
+    }else{
+      console.log("not user")
+      navigate("/signup")
+    }
+  }, [loading]); 
 
   const submitHandler = async () => {
     setPicLoading(true);
@@ -222,7 +238,7 @@ const Signup = () => {
                   width="100%"
                   style={{ marginTop: 15 }}
                   onClick={submitHandler}
-                  // isLoading={loading}
+                  isLoading={loading}
                 >
                  SignUp
                 </Button>
@@ -234,8 +250,19 @@ const Signup = () => {
                     setEmail("guest@example.com");
                     setPassword("123456");
                   }}
+                  isLoading={loading}
                 >
                   Get Guest User Credentials
+                </Button>
+                <Button
+                  variant="solid"
+                  colorScheme="blue"
+                  width="100%"
+                  onClick={() => {
+                    navigate("/login")
+                  }}
+                >
+                  Login
                 </Button>
               </VStack>
             </Center>

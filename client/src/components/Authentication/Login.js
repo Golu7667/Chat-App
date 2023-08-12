@@ -1,3 +1,4 @@
+import React,{ useEffect} from 'react'
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
@@ -5,7 +6,7 @@ import { VStack, HStack } from "@chakra-ui/layout";
 import { useState } from "react";
 import { useToast, Center, Box, Text, Flex, Divider } from "@chakra-ui/react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -14,8 +15,19 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user){
+      console.log(user)
+      navigate("/chats");
+    }else{
+      console.log("not user")
+      navigate("/login")
+    }
+  }, [loading]);
  
 
   const submitHandler = async () => {
@@ -103,7 +115,7 @@ const Login = () => {
                     type="email"
                     placeholder="Enter Your Email Address"
                     onChange={(e) => setEmail(e.target.value)}
-                    color="white"
+                    bg="white"
                   />
                 </FormControl>
                 <FormControl id="password" isRequired>
@@ -114,6 +126,7 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       type={show ? "text" : "password"}
                       placeholder="Enter password"
+                      bg="white"
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -141,6 +154,16 @@ const Login = () => {
                   }}
                 >
                   Get Guest User Credentials
+                </Button>
+                <Button
+                  variant="solid"
+                  colorScheme="blue"
+                  width="100%"
+                  onClick={()=>{
+                           navigate("/signup")
+                  }}
+                >
+                Signup
                 </Button>
               </VStack>
             </Center>

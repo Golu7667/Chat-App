@@ -6,8 +6,8 @@ const connectDatabase = ()=>{
   .then(()=>{
     console.log("Mongoose connected")
   }).catch((error)=>{
-    console.log(error)
+    console.log(error)  
   })
 }
 
-module.exports = connectDatabase;   
+module.exports = connectDatabase;    
