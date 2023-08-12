@@ -34,7 +34,7 @@ const Signup = () => {
   }, [loading]); 
 
   const submitHandler = async () => {
-    setPicLoading(true);
+    setLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
         title: "Please Fill all the Feilds",
@@ -82,7 +82,7 @@ const Signup = () => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
-      setPicLoading(false);
+      setLoading(false);
     
     } catch (error) {
       toast({
@@ -93,7 +93,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      setPicLoading(false);
+      setLoading(false);
     }
   };
 
