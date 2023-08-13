@@ -21,10 +21,10 @@ const Login = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (user){
-      console.log(user)
+     
       navigate("/chats");
     }else{
-      console.log("not user")
+     
       navigate("/login")
     }
   }, [loading]);
@@ -56,7 +56,7 @@ const Login = () => {
         { email, password },
         config
       );
-
+      console.log(data)
       toast({
         title: "Login Successful",
         status: "success",
@@ -69,14 +69,25 @@ const Login = () => {
       setLoading(false);
       
     } catch (error) {
-      toast({
-        title: "Error Occured!",
-        description: error.response.data.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
+      if(error.response.data.message=="Invalid Email or Password"){
+        toast({
+          title: "Invalid Email or Password",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+       else{
+        toast({
+          title: " Error Occurred",
+          description: error.response.data.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+       }
       setLoading(false);
     }
   };
