@@ -27,32 +27,46 @@ import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
 import { ChatState } from "../../Context/ChatProvider";
+import {Search2Icon} from '@chakra-ui/icons'
 
 function SideDrawer() {
+     
   
+   const {user }= ChatState()
+
+ console.log(user)
+
+
 
   return (
     <>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="space-between"
         alignItems="center"
         bg="white"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
+        borderWidth="1px"
+        
+        
       >
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" >
-            <i className="fas fa-search"></i>
+         {/* Tooltip */}
+        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end" >
+          <Button variant="ghost" border="1px solid green">
+            <Search2Icon/>
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
         </Tooltip>
+        {/* Tooltip */}
+
+
         <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+         Chat App
         </Text>
+
         <div>
           <Menu>
             <MenuButton p={1}>
@@ -60,7 +74,7 @@ function SideDrawer() {
                 // count={notification.length}
                 // effect={Effect.SCALE}
               /> */}
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color="green"/>
             </MenuButton>
             <MenuList pl={2}>
               {/* {!notification.length && "No New Messages"}
@@ -79,11 +93,11 @@ function SideDrawer() {
               ))} */}
             </MenuList>
           </Menu>
-          <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+          <Menu  >
+            <MenuButton as={Button} bg="white" border="1px solid green" rightIcon={<ChevronDownIcon />}>
               <Avatar
                 size="sm"
-                cursor="pointer"
+                cursor="pointer" 
                 // name={user.name}
                 // src={user.pic}
               />
