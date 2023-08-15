@@ -27,14 +27,51 @@ import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
 import { ChatState } from "../../Context/ChatProvider";
-import {Search2Icon} from '@chakra-ui/icons'
+import { Search2Icon } from "@chakra-ui/icons";
+import { useEffect } from "react";
 
-function SideDrawer() {
-     
+
+function SideDrawer () {
   
-   const {user }= ChatState()
+  const [search,setSearch]=useState();
+  const [loading,setLoading]=useState(false)
 
- console.log(user)
+   const {isOpen,onOpen,onClose}=useDisclosure();
+
+   const toast= useToast();  
+   const  {user} = ChatState();
+   const handleSearch= async()=>{
+       if(!search){
+        toast({
+          title:"Please Enter something in search",
+          status:"warning",
+          duration:"5000",
+          isClosable:true,
+          position:"bottom-center"
+        })
+       } 
+       try {
+                 setLoading(true)
+                 const {data} = await axios.get(`http://localhost:8000/api/user?search=${search}`)
+                  console.log(data)
+                  setLoading(false)
+
+            }catch(error){
+              toast({
+                title: "Error Occured!",
+                description: "Failed to Load the Search Results",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-left",
+              });
+            }
+
+
+
+       
+
+   }
 
 
 
@@ -48,13 +85,11 @@ function SideDrawer() {
         w="100%"
         p="5px 10px 5px 10px"
         borderWidth="1px"
-        
-        
       >
-         {/* Tooltip */}
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end" >
-          <Button variant="ghost" border="1px solid green">
-            <Search2Icon/>
+        {/* Tooltip */}
+        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
+          <Button variant="ghost" border="1px solid green"  onClick={onOpen}>
+            <Search2Icon />
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
@@ -62,9 +97,8 @@ function SideDrawer() {
         </Tooltip>
         {/* Tooltip */}
 
-
         <Text fontSize="2xl" fontFamily="Work sans">
-         Chat App
+          Chat App
         </Text>
 
         <div>
@@ -74,7 +108,7 @@ function SideDrawer() {
                 // count={notification.length}
                 // effect={Effect.SCALE}
               /> */}
-              <BellIcon fontSize="2xl" m={1} color="green"/>
+              <BellIcon fontSize="2xl" m={1} color="green" />
             </MenuButton>
             <MenuList pl={2}>
               {/* {!notification.length && "No New Messages"}
@@ -93,40 +127,42 @@ function SideDrawer() {
               ))} */}
             </MenuList>
           </Menu>
-          <Menu  >
-            <MenuButton as={Button} bg="white" border="1px solid green" rightIcon={<ChevronDownIcon />}>
+          <Menu>
+            <MenuButton
+              as={Button}
+              bg="white"
+              border="1px solid green"
+              rightIcon={<ChevronDownIcon />}
+            >
               <Avatar
                 size="sm"
-                cursor="pointer" 
+                cursor="pointer"
                 // name={user.name}
                 // src={user.pic}
               />
             </MenuButton>
             <MenuList>
-              <ProfileModal >
+              <ProfileModal>
                 <MenuItem>My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem >Logout</MenuItem>
+              <MenuItem>Logout</MenuItem>
             </MenuList>
           </Menu>
         </div>
       </Box>
 
-      <Drawer placement="left" >
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
-            <Box d="flex" pb={2}>
-              <Input
-                placeholder="Search by name or email"
-                mr={2}
-               
-              />
-              <Button >Go</Button>
+            <Box display="flex" pb={2}>
+              <Input placeholder="Search by name or email" mr={2}  value={search}
+                onChange={(e) => setSearch(e.target.value)} />
+              <Button  onClick={handleSearch}>Go</Button>
             </Box>
-{/*             
+            {/*             
               <ChatLoading />
             
             <Spinner ml="auto" d="flex" /> */}

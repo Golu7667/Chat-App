@@ -5,26 +5,22 @@ import { useNavigate } from "react-router-dom";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
+  
   const [user, setUser] = useState();
-   
-
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
     
-    if (!userInfo) history.push("/");
+    if (!userInfo) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [navigate]);
+  
 
   return (
     <ChatContext.Provider
-      value={{
-       
-        user
-       
-      }}
+      value={{user}}
     >
       {children}
     </ChatContext.Provider>
