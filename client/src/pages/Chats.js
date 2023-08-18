@@ -1,10 +1,23 @@
 import { Box } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
 import { ChatState } from "../Context/ChatProvider";
+import { useNavigate } from "react-router-dom";
+
 
 const Chatpage = () => {
-    
+        const {user}=ChatState();
+        const navigate=useNavigate();
+
+        useEffect(()=>{
+          if(!user){
+            navigate("/")
+          }else{
+            navigate("/chats")
+          }
+        },[navigate])
+
+
   return (
     <div style={{ width: "100%" , backgroundColor:"red"}}>
        <SideDrawer />

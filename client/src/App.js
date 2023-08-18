@@ -4,28 +4,27 @@ import Login from './components/Authentication/Login'
 import Signup from './components/Authentication/Signup'
 import { useNavigate } from 'react-router-dom'
 import Chats from './pages/Chats'
+import {ChatState} from './Context/ChatProvider'
 
 function App() {
  const navigate=useNavigate();
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
+ const {user}=ChatState(); 
+  console.log(user)
+//  useEffect(()=>{
+//     if(user){
+//       navigate("/chats")
+//     }else{
+//       navigate("/login")
+//     }
+//  },[])
 
-    if (user) 
-    {
-      navigate("/chats");
-    }else{
-      navigate("/login")
-    }
    
-
-
-  }, []);
-
   return (
 	<>
   
    <Routes>
-     <Route path="/login" element={<Login/>}/>
+      {/* <Route path='/' element={<>hi</>}/> */}
+     <Route path="/" element={<Login/>}/ >
      <Route path='/signup' element={<Signup/>}/>
      <Route path="/chats" element={<Chats/>}/>
    </Routes>

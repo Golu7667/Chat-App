@@ -162,10 +162,10 @@ function SideDrawer () {
                 onChange={(e) => setSearch(e.target.value)} />
               <Button  onClick={handleSearch}>Go</Button>
             </Box>
-            {/*             
+                        
               <ChatLoading />
             
-            <Spinner ml="auto" d="flex" /> */}
+             {/* <Spinner ml="auto" d="flex" />  */}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

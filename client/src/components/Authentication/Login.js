@@ -24,8 +24,7 @@ const Login = () => {
      
       navigate("/chats");
     }else{
-     
-      navigate("/login")
+      navigate('/')
     }
   }, [loading]);
  

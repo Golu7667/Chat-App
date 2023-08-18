@@ -25,11 +25,10 @@ const Signup = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (user){
-      console.log(user)
+      
       navigate("/chats");
     }else{
-      console.log("not user")
-      navigate("/signup")
+      navigate('/signup')
     }
   }, [loading]); 
 
@@ -259,7 +258,7 @@ const Signup = () => {
                   colorScheme="blue"
                   width="100%"
                   onClick={() => {
-                    navigate("/login")
+                    navigate("/")
                   }}
                 >
                   Login
