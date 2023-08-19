@@ -26,54 +26,101 @@ import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import { getSender } from "../../config/ChatLogics";
+import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
-import { Search2Icon } from "@chakra-ui/icons";
-import { useEffect } from "react";
+import {Search2Icon} from '@chakra-ui/icons'
+function SideDrawer() {
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingChat, setLoadingChat] = useState(false);
 
+  const {
+    setSelectedChat,
+    user,
+    notification,
+    setNotification,
+    chats,
+    setChats,
+  } = ChatState();
 
-function SideDrawer () {
-  
-  const [search,setSearch]=useState();
-  const [loading,setLoading]=useState(false)
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
-   const {isOpen,onOpen,onClose}=useDisclosure();
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
 
-   const toast= useToast();  
-   const  {user} = ChatState();
-   const handleSearch= async()=>{
-       if(!search){
-        toast({
-          title:"Please Enter something in search",
-          status:"warning",
-          duration:"5000",
-          isClosable:true,
-          position:"bottom-center"
-        })
-       } 
-       try {
-                 setLoading(true)
-                 const {data} = await axios.get(`http://localhost:8000/api/user?search=${search}`)
-                  console.log(data)
-                  setLoading(false)
+  const handleSearch = async () => {
+    if (!search) {
+      toast({
+        title: "Please Enter something in search",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
+    }
 
-            }catch(error){
-              toast({
-                title: "Error Occured!",
-                description: "Failed to Load the Search Results",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-left",
-              });
-            }
+    try {
+      setLoading(true);
 
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
 
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
 
-       
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
-   }
+  const accessChat = async (userId) => {
+    console.log(userId);
 
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(`/api/chat`, { userId }, config);
 
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <>
@@ -84,34 +131,31 @@ function SideDrawer () {
         bg="white"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="1px"
+        borderWidth="5px"
       >
-        {/* Tooltip */}
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" border="1px solid green"  onClick={onOpen}>
-            <Search2Icon />
-            <Text d={{ base: "none", md: "flex" }} px={4}>
+          <Button variant="ghost" onClick={onOpen}>
+        
+            <Text display={{ base: "none", md: "flex" }} px={4}>
+            <Search2Icon fontSize="lg"/>        
               Search User
             </Text>
           </Button>
         </Tooltip>
-        {/* Tooltip */}
-
         <Text fontSize="2xl" fontFamily="Work sans">
-          Chat App
+          Talk-A-Tive
         </Text>
-
         <div>
           <Menu>
             <MenuButton p={1}>
-              {/* <NotificationBadge
-                // count={notification.length}
-                // effect={Effect.SCALE}
-              /> */}
-              <BellIcon fontSize="2xl" m={1} color="green" />
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
+              <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
             <MenuList pl={2}>
-              {/* {!notification.length && "No New Messages"}
+              {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -122,31 +166,26 @@ function SideDrawer () {
                 >
                   {notif.chat.isGroupChat
                     ? `New Message in ${notif.chat.chatName}`
-                    :null}
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
-              ))} */}
+              ))}
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton
-              as={Button}
-              bg="white"
-              border="1px solid green"
-              rightIcon={<ChevronDownIcon />}
-            >
+            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
               <Avatar
                 size="sm"
                 cursor="pointer"
-                // name={user.name}
-                // src={user.pic}
+                name={user.name}
+                src={user.pic}
               />
             </MenuButton>
             <MenuList>
-              <ProfileModal>
+              <ProfileModal user={user}>
                 <MenuItem>My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -158,14 +197,26 @@ function SideDrawer () {
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
             <Box display="flex" pb={2}>
-              <Input placeholder="Search by name or email" mr={2}  value={search}
-                onChange={(e) => setSearch(e.target.value)} />
-              <Button  onClick={handleSearch}>Go</Button>
+              <Input
+                placeholder="Search by name or email"
+                mr={2}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button onClick={handleSearch}>Go</Button>
             </Box>
-                        
+            {loading ? (
               <ChatLoading />
-            
-             {/* <Spinner ml="auto" d="flex" />  */}
+            ) : (
+              searchResult?.map((user) => (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              ))
+            )}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

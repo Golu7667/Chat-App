@@ -3,7 +3,7 @@ import { Route,Routes } from 'react-router-dom'
 import Login from './components/Authentication/Login'
 import Signup from './components/Authentication/Signup'
 import { useNavigate } from 'react-router-dom'
-import Chats from './pages/Chats'
+import Chatpage from './pages/Chatpage'
 import {ChatState} from './Context/ChatProvider'
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
       {/* <Route path='/' element={<>hi</>}/> */}
      <Route path="/" element={<Login/>}/ >
      <Route path='/signup' element={<Signup/>}/>
-     <Route path="/chats" element={<Chats/>}/>
+     <Route path="/chats" element={<Chatpage/>}/>
    </Routes>
 
 	</>
