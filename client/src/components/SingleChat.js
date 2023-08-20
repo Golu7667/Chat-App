@@ -1,5 +1,5 @@
 import { FormControl } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement  } from "@chakra-ui/input";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
@@ -11,7 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
 // import animationData from "../animations/typing.json";
-import {VscSend} from 'react-icons/vsc'
+import { VscSend } from "react-icons/vsc";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
@@ -19,6 +19,8 @@ const ENDPOINT = "http://localhost:8000"; // "https://talk-a-tive.herokuapp.com"
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -26,6 +28,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+
 
   const defaultOptions = {
     loop: true,
@@ -35,9 +39,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const { selectedChat, setSelectedChat, user, notification, setNotification } =
-    ChatState();
 
+
+  const { selectedChat, setSelectedChat, user, notification, setNotification } =ChatState();
+
+    console.log(selectedChat)
+  // Fetch messages  
   const fetchMessages = async () => {
     if (!selectedChat) return;
 
@@ -61,7 +68,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: "Failed to Load the Messages",
+        description: "Failed the Messages",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -70,6 +77,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
+
+  // send Message 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       socket.emit("stop typing", selectedChat._id);
@@ -85,7 +94,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           "http://localhost:8000/api/message",
           {
             content: newMessage,
-            chatId: selectedChat,
+            chatId: selectedChat.latestMessage.chat
+            ,
           },
           config
         );
@@ -104,6 +114,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
+
+
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
@@ -114,12 +127,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // eslint-disable-next-line
   }, []);
 
+
+
   useEffect(() => {
     fetchMessages();
 
     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
+
+
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
@@ -135,13 +152,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setMessages([...messages, newMessageRecieved]);
       }
     });
+
+
   });
 
+ 
+  // typing Handle
   const typingHandler = (e) => {
-    setNewMessage(e.target.value);
-
+     setNewMessage(e.target.value)
     if (!socketConnected) return;
-
+    console.log("connected");
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
@@ -157,6 +177,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }, timerLength);
   };
+
+
+  
 
   return (
     <>
@@ -241,18 +264,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <></>
               )}
               <InputGroup>
-      <InputRightElement
-        pointerEvents="none"
-        children={<VscSend color="gray.300" />} // Set the icon and its color
-      />
-      <Input
-        bg="white"
-        placeholder="Enter a message.."
-        value={newMessage}
-        onChange={typingHandler}
-        boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
-      />
-    </InputGroup>
+                <InputRightElement
+                  pointerEvents="none"
+                  children={<VscSend color="gray.300" />} // Set the icon and its color
+                />
+                <Input
+                  bg="white"
+                  placeholder="Enter a message.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                  boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                />
+              </InputGroup>
             </FormControl>
           </Box>
         </>
