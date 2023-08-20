@@ -6,13 +6,17 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+const cors=require("cors")
+
 
 dotenv.config();
 connectDB();
 const app = express();
 
 app.use(express.json()); // to accept json data
-
+app.use(cors({
+  origin:"http://localhost:3000"
+}))
 // app.get("/", (req, res) => {
 //   res.send("API Running!");
 // });
@@ -54,6 +58,8 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
     // credentials: true,
   },
 });
@@ -84,7 +90,7 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("setup", () => {
+  socket.off("setup", () => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
   });

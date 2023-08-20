@@ -13,7 +13,7 @@ const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-
+  console.log(chats)
   const toast = useToast();
 
   const fetchChats = async () => {
@@ -25,7 +25,7 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get("/api/chat", config);
+      const { data } = await axios.get("http://localhost:8000/api/chat", config);
       setChats(data);
     } catch (error) {
       toast({
@@ -47,7 +47,7 @@ const MyChats = ({ fetchAgain }) => {
 
   return (
     <Box
-      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -61,7 +61,7 @@ const MyChats = ({ fetchAgain }) => {
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
         fontFamily="Work sans"
-        d="flex"
+        display="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
@@ -69,7 +69,7 @@ const MyChats = ({ fetchAgain }) => {
         My Chats
         <GroupChatModal>
           <Button
-            d="flex"
+            display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
           >
@@ -78,7 +78,7 @@ const MyChats = ({ fetchAgain }) => {
         </GroupChatModal>
       </Box>
       <Box
-        d="flex"
+        display="flex"
         flexDir="column"
         p={3}
         bg="#F8F8F8"
@@ -97,10 +97,11 @@ const MyChats = ({ fetchAgain }) => {
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
+                h="80px"
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
+                <Text  fontSize="xl" fontFamily="Arial, sans-serif" fontWeight="bold">
                   {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
