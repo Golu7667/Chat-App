@@ -43,7 +43,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const { selectedChat, setSelectedChat, user, notification, setNotification } =ChatState();
 
-    console.log(selectedChat)
+  
   // Fetch messages  
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -80,9 +80,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   // send Message 
   const sendMessage = async (event) => {
+    console.log("before")
     if (event.key === "Enter" && newMessage) {
+      console.log("after")
       socket.emit("stop typing", selectedChat._id);
       try {
+        console.log("enter")
         const config = {
           headers: {
             "Content-type": "application/json",
@@ -91,14 +94,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "http://localhost:8000/api/message",
+          "http://localhost:8000/api/message/",
           {
             content: newMessage,
-            chatId: selectedChat.latestMessage.chat
-            ,
-          },
-          config
+            chatId: selectedChat._id,
+            userId:user._id
+          }
+          
         );
+        console.log(data)
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -110,6 +114,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           isClosable: true,
           position: "bottom",
         });
+        console.log(error)
+          
+        
       }
     }
   };
