@@ -148,20 +148,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
+       
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
+        console.log("1")
         if (!notification.includes(newMessageRecieved)) {
+          console.log("2")
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
         }
       } else {
+        console.log("3")
         setMessages([...messages, newMessageRecieved]);
       }
     });
 
 
-  });
+  },[]);
 
  
   // typing Handle
@@ -203,7 +207,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             alignItems="center"
           >
             <IconButton
-              display={{ base: "flex", md: "none" }}
+              display={{ base: "flex"  }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />
@@ -288,7 +292,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         </>
       ) : (
         // to get socket.io on same page
-        <Box d="flex" alignItems="center" justifyContent="center" h="100%">
+        <Box display="flex" alignItems="center" justifyContent="center" h="100%">
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
           </Text>
