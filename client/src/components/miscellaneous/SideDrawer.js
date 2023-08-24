@@ -133,19 +133,21 @@ function SideDrawer() {
         bg="white"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
+        bgColor="gray.400"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button  onClick={onOpen}>
         
-            <Text display={{ base: "none", md: "flex" }} px={4}>
-            <Search2Icon fontSize="lg"/>        
-              Search User
+            <Text display={{ base: "none", md: "flex"  }} px={4}>
+             
+              Search User ...
+                  
             </Text>
+            <Search2Icon fontSize="lg" pl="2px"/>  
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+        <Text fontSize="2xl" fontFamily="Work sans" textColor="white">
+         Chat App
         </Text>
         <div>
           <Menu>
@@ -182,12 +184,12 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList borderWidth=" 2px " borderColor="gray"  >
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
+                <MenuItem fontSize="md" fontWeight="bold">My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler} fontSize="md" fontWeight="bold">Logout</MenuItem>
             </MenuList>
           </Menu>
         </div>

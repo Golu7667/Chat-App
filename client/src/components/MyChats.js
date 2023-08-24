@@ -54,7 +54,8 @@ const MyChats = ({ fetchAgain }) => {
       bg="white"
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
-      borderWidth="1px"
+      boxShadow="0px 4px 6px gray"
+      bgColor="gray.400"
     >
       <Box
         pb={3}
@@ -65,6 +66,7 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         justifyContent="space-between"
         alignItems="center"
+        textColor="white"
       >
         My Chats
         <GroupChatModal>
@@ -72,6 +74,7 @@ const MyChats = ({ fetchAgain }) => {
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
+            
           >
             New Group Chat
           </Button>
@@ -86,6 +89,7 @@ const MyChats = ({ fetchAgain }) => {
         h="100%"
         borderRadius="lg"
         overflowY="hidden"
+        bgColor="gray.400"
       >
         {chats ? (
           <Stack overflowY="scroll">
@@ -97,8 +101,9 @@ const MyChats = ({ fetchAgain }) => {
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
-                h="80px"
+                h="70px"
                 borderRadius="lg"
+               
                 key={chat._id}
               >
                 <Text  fontSize="xl" fontFamily="Arial, sans-serif" fontWeight="bold">
