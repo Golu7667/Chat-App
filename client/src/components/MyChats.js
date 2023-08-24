@@ -6,14 +6,15 @@ import { useEffect, useState } from "react";
 import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
-import { Button } from "@chakra-ui/react";
+import { Button, VStack,HStack } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
+import { Avatar } from "@chakra-ui/avatar";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  console.log(chats)
+  console.log(chats);
   const toast = useToast();
 
   const fetchChats = async () => {
@@ -25,7 +26,10 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get("http://localhost:8000/api/chat", config);
+      const { data } = await axios.get(
+        "http://localhost:8000/api/chat",
+        config
+      );
       setChats(data);
     } catch (error) {
       toast({
@@ -74,7 +78,6 @@ const MyChats = ({ fetchAgain }) => {
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
-            
           >
             New Group Chat
           </Button>
@@ -103,22 +106,42 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 h="70px"
                 borderRadius="lg"
-               
+                mr="6px"
                 key={chat._id}
+                display="flex"
               >
-                <Text  fontSize="xl" fontFamily="Arial, sans-serif" fontWeight="bold">
+               
+                <Avatar
+                  mr={2}
+                  size="md"
+                  cursor="pointer"
+                  name={user.name}
+                  src={user.pic}
+                 
+                  boxShadow="0 4px 6px#4169E1"
+                />
+              
+                <VStack>
+                <Text
+                  fontSize="xl"
+                  fontFamily="Arial, sans-serif"
+                  fontWeight="bold"
+                >
                   {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
-                  </Text>
-                )}
+
+
+                  {chat.latestMessage && (
+                    <Text fontSize="xs">
+                      <b>{chat.latestMessage.sender.name} : </b>
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </VStack>
               </Box>
             ))}
           </Stack>

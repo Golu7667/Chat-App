@@ -2,7 +2,7 @@ import { FormControl } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import { IconButton, Img, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,7 +10,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
-// import animationData from "../animations/typing.json";
+import chatIcon from "../animation/chat.svg";
 import { VscSend } from "react-icons/vsc";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -205,6 +205,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             display="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
+           
           >
             <IconButton
               display={{ base: "flex"  }}
@@ -235,11 +236,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            bg="gray.400"
             w="100%"
             h="100%"
             borderRadius="lg"
             overflowY="hidden"
+            
           >
             {loading ? (
               <Spinner
@@ -263,13 +265,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             >
               {istyping ? (
                 <div>
-                  {/* <Lottie
-                    options={defaultOptions}
-                    // height={50}
-                    width={70}
-                    style={{ marginBottom: 15, marginLeft: 0 }}
-                  /> */}
-                  hi
+                   {/* <Img src={chatIcon} alt="ho"/> */}
                 </div>
               ) : (
                 <></>
@@ -284,7 +280,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   placeholder="Enter a message.."
                   value={newMessage}
                   onChange={typingHandler}
-                  boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                  boxShadow="0 4px 6px black"
+                  borderRadius="xl"
                 />
               </InputGroup>
             </FormControl>
@@ -292,10 +289,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         </>
       ) : (
         // to get socket.io on same page
-        <Box display="flex" alignItems="center" justifyContent="center" h="100%">
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+        <Box h="100%" w="100%">
+          {/* <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
-          </Text>
+          </Text> */}
+          <Img src={chatIcon} w="100%" h="100%"/>
         </Box>
       )}
     </>
