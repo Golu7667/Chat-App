@@ -8,7 +8,7 @@ import { ChatState } from "../Context/ChatProvider";
 const Chatpage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
- console.log("jjj")      
+      
   return (
     <div style={{ width: "100%" }}>
       {user && <SideDrawer />}
