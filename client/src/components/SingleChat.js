@@ -15,6 +15,7 @@ import { VscSend } from "react-icons/vsc";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
+import { Divider } from "@chakra-ui/react";
 const ENDPOINT = "http://localhost:8000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
@@ -198,14 +199,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
-            pb={3}
+           
             px={2}
             w="100%"
             fontFamily="Work sans"
             display="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
-           
+            bg="gray.400"
+            borderRadius="lg"
           >
             <IconButton
               display={{ base: "flex"  }}
@@ -231,6 +233,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </>
               ))}
           </Text>
+          <Divider/>
           <Box
             display="flex"
             flexDir="column"
