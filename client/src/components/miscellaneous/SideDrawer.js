@@ -184,7 +184,7 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList borderWidth=" 2px " borderColor="gray"  >
+            <MenuList   >
               <ProfileModal user={user}>
                 <MenuItem fontSize="md" fontWeight="bold">My Profile</MenuItem>{" "}
               </ProfileModal>
