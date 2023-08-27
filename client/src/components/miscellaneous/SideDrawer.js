@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Input } from "@chakra-ui/input";
@@ -37,6 +38,8 @@ function SideDrawer() {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
+ 
+
 
   const {
     setSelectedChat,
@@ -46,7 +49,10 @@ function SideDrawer() {
     chats,
     setChats,
   } = ChatState();
-  console.log(notification)
+  const notificationBadgeRef = useRef(false);
+  console.log(notification,notificationBadgeRef)
+  
+
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -153,8 +159,9 @@ function SideDrawer() {
           <Menu>
             <MenuButton p={1}>
               <NotificationBadge
-                count={notification.length}
-                effect={Effect.SCALE}
+              //  ref={notificationBadgeRef}
+              //   count={notification.length}
+              //   effect={Effect.SCALE}
               />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>

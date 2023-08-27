@@ -141,6 +141,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     fetchMessages();
 
     selectedChatCompare = selectedChat;
+    console.log(selectedChatCompare)
     // eslint-disable-next-line
   }, [selectedChat]);
 
@@ -148,10 +149,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
+           console.log(newMessageRecieved,selectedChatCompare._id)
       if (
        
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
+       // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id == newMessageRecieved.chat._id
       ) {
         console.log("1")
         if (!notification.includes(newMessageRecieved)) {
@@ -162,6 +164,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       } else {
         console.log("3")
         setMessages([...messages, newMessageRecieved]);
+        console.log(messages)
       }
     });
 
@@ -199,7 +202,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
-           
+            color="white"
             px={2}
             w="100%"
             fontFamily="Work sans"
