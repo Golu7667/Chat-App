@@ -11,10 +11,10 @@ const allUsers = asyncHandler(async (req, res) => {
     ? {
         $or: [
           { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } }, 
         ],
       }
-    : {};
+    : {}; 
     
   const users = await User.find(keyword ).find({ _id: { $ne:"64d7708a1b2f08fe43725feb" } });
   console.log(users)

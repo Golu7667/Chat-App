@@ -81,12 +81,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   // send Message 
   const sendMessage = async (event) => {
-    console.log("before")
-    if (event.key === "Enter" && newMessage) {
-      console.log("after")
+   
+    if (newMessage) {
+      
       socket.emit("stop typing", selectedChat._id);
       try {
-        console.log("enter")
+       
         const config = {
           headers: {
             "Content-type": "application/json",
@@ -103,7 +103,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           }
           
         );
-        console.log(data)
+      
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -115,7 +115,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           isClosable: true,
           position: "bottom",
         });
-        console.log(error)
+      
           
         
       }
@@ -169,8 +169,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
 
 
-  },[]);
-
+  },[ newMessage]); 
+ 
  
   // typing Handle
   const typingHandler = (e) => {
@@ -264,7 +264,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl
-              onKeyDown={sendMessage}
+              // onKeyDown={sendMessage}
               id="first-name"
               isRequired
               mt={3}
@@ -279,7 +279,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <InputGroup>
                 <InputRightElement
                   pointerEvents="none"
-                  children={<VscSend color="gray.300" />} // Set the icon and its color
+                  children={<VscSend color="gray.300" onClick={send}/>} // Set the icon and its color
                 />
                 <Input
                   bg="white"
@@ -299,7 +299,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           {/* <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
           </Text> */}
-          <Img src={chatIcon} w="100%" h="100%"/>
+          <Img src={chatIcon} w="100%" h="100%" onClick={sendMessage}/>
         </Box>
       )}
     </>

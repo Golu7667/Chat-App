@@ -18,7 +18,7 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon} from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -33,6 +33,9 @@ import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 import {Search2Icon} from '@chakra-ui/icons'
+import { Badge } from '@chakra-ui/react';
+import { PiBellRingingFill } from 'react-icons/pi';
+
 function SideDrawer() {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -158,12 +161,12 @@ function SideDrawer() {
         <div>
           <Menu>
             <MenuButton p={1}>
-              <NotificationBadge
-              //  ref={notificationBadgeRef}
-              //   count={notification.length}
-              //   effect={Effect.SCALE}
-              />
-              <BellIcon fontSize="2xl" m={1} />
+             
+              <BellIcon  fontSize="2xl" />
+             
+             <Badge borderRadius="full" marginLeft="-10px" bgColor="#48BB78" color="white" marginBottom="15px">{notification.length}</Badge>
+              
+            
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
