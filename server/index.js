@@ -63,6 +63,8 @@ const io = require("socket.io")(server, {
     // credentials: true,
   },
 });
+ 
+console.log(io)
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");

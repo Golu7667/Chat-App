@@ -80,8 +80,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 
   // send Message 
-  const sendMessage = async (event) => {
-   
+  const sendMessage = async () => {
+      console.log("sendmessage")
     if (newMessage) {
       
       socket.emit("stop typing", selectedChat._id);
@@ -278,8 +278,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
               <InputGroup>
                 <InputRightElement
-                  pointerEvents="none"
-                  children={<VscSend color="gray.300" onClick={send}/>} // Set the icon and its color
+                 fontSize="xl"
+                 onClick={()=>sendMessage()}
+                  children={<VscSend color="gray.300"  cursor="pointer"  />} 
                 />
                 <Input
                   bg="white"
@@ -299,7 +300,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           {/* <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
           </Text> */}
-          <Img src={chatIcon} w="100%" h="100%" onClick={sendMessage}/>
+          <Img src={chatIcon} w="100%" h="100%" />
         </Box>
       )}
     </>
