@@ -17,7 +17,7 @@ import { ChatState } from "../Context/ChatProvider";
 import { Divider } from "@chakra-ui/react";
 import baseUrl from "../baseUrl";
 
-const ENDPOINT = "http://localhost:8000"; 
+const ENDPOINT = baseUrl; 
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
