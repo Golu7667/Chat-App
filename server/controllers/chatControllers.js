@@ -56,7 +56,7 @@ const accessChat = asyncHandler(async (req, res) => {
 //@access          Protected
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-    Chat.find({ users: { $elemMatch: { $eq: "64d7708a1b2f08fe43725feb" } } })
+    Chat.find({ users: { $elemMatch: { $eq: req.user._id  } } })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
