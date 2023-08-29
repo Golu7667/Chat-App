@@ -79,14 +79,9 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-     const response=await localStorage.setItem("userInfo", JSON.stringify(data));
-      // response.then(()=>{
+       localStorage.setItem("userInfo", JSON.stringify(data));
         setLoading(false);
         navigate("/chats")
-      // }).catch((e)=>{
-      //   console.log(e)
-      // })
-     console.log(response)
      
     
     } catch (error) {
