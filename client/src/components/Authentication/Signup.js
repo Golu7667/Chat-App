@@ -40,7 +40,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      setPicLoading(false);
+     
       return;
     }
     if (password !== confirmpassword) {
@@ -53,7 +53,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    
     try {
       const config = {
         headers: {
@@ -66,7 +66,7 @@ const Signup = () => {
           name,
           email,
           password,
-          pic,
+         
         },
         config
       );
