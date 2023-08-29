@@ -66,10 +66,10 @@ const Login = () => {
         position: "bottom",
       });
      
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/chats")
-      setLoading(false);
+      await localStorage.setItem("userInfo", JSON.stringify(data));
       
+      setLoading(false);
+      navigate("/chats")
     } catch (error) {
       if(error.response.data.message=="Invalid Email or Password"){
         toast({
@@ -132,7 +132,7 @@ const Login = () => {
                   />
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel color="white">Password</FormLabel>
                   <InputGroup size="lg">
                     <Input
                       value={password}
@@ -156,17 +156,6 @@ const Login = () => {
                   isLoading={loading}
                 >
                   Login
-                </Button>
-                <Button
-                  variant="solid"
-                  colorScheme="red"
-                  width="100%"
-                  onClick={() => {
-                    setEmail("guest@example.com");
-                    setPassword("123456");
-                  }}
-                >
-                  Get Guest User Credentials
                 </Button>
                 <Button
                   variant="solid"

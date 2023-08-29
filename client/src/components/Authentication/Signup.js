@@ -28,7 +28,7 @@ const Signup = () => {
     }else{
       navigate('/signup')
     }
-  }, [loading]); 
+  }, [navigate]); 
 
   const submitHandler = async () => {
     setLoading(true);
@@ -40,7 +40,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-     
+      setLoading(false);
       return;
     }
     if (password !== confirmpassword) {
@@ -51,6 +51,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
       return;
     }
     
@@ -78,9 +79,15 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate("/chats")
-      setLoading(false);
+     const response=await localStorage.setItem("userInfo", JSON.stringify(data));
+      // response.then(()=>{
+        setLoading(false);
+        navigate("/chats")
+      // }).catch((e)=>{
+      //   console.log(e)
+      // })
+     console.log(response)
+     
     
     } catch (error) {
       toast({
@@ -100,7 +107,7 @@ const Signup = () => {
     <>
       <Center h="100vh" w="100vw">
         <Box w={[400, 400, 700]} h="650px">
-          <Box h="50px" w={[400, 400, 700]}>
+          <Box h="100px" w={[400, 400, 700]} pt="50px">
             <VStack item="center">
               <Text fontSize="xl" fontWeight="bold">
                 Chat App SignUp
@@ -118,7 +125,7 @@ const Signup = () => {
           <Box
             backgroundColor="gray"
             w={[400, 400, 700]}
-            h="600px"
+            h="500px"
             rounded="30px"
             boxShadow="dark-lg"
           >
@@ -145,7 +152,7 @@ const Signup = () => {
                   />
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel color="white" >Password</FormLabel>
                   <InputGroup size="lg">
                     <Input
                       value={password}
@@ -162,7 +169,7 @@ const Signup = () => {
                   </InputGroup>
                 </FormControl>
                 <FormControl id="password" isRequired>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel color="white">Confirm Password</FormLabel>
                   <InputGroup size="lg">
                     <Input
                       value={confirmpassword}
@@ -186,18 +193,6 @@ const Signup = () => {
                   isLoading={loading}
                 >
                  SignUp
-                </Button>
-                <Button
-                  variant="solid"
-                  colorScheme="red"
-                  width="100%"
-                  onClick={() => {
-                    setEmail("guest@example.com");
-                    setPassword("123456");
-                  }}
-                  isLoading={loading}
-                >
-                  Get Guest User Credentials
                 </Button>
                 <Button
                   variant="solid"
