@@ -27,19 +27,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
-  const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
-
-
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    // animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
 
   const { selectedChat, setSelectedChat, user, notification, setNotification } =ChatState();
@@ -100,7 +88,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             content: newMessage,
             chatId: selectedChat._id,
             userId:user._id
-          }
+          },
+          config
           
         );
       
@@ -129,8 +118,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+   
 
     // eslint-disable-next-line
   }, []);
@@ -264,18 +252,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl
-              // onKeyDown={sendMessage}
               id="first-name"
               isRequired
               mt={3}
             >
-              {istyping ? (
-                <div>
-                   {/* <Img src={chatIcon} alt="ho"/> */}
-                </div>
-              ) : (
-                <></>
-              )}
               <InputGroup>
                 <InputRightElement
                  fontSize="xl"

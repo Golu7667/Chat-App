@@ -6,20 +6,24 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
-const cors=require("cors")
-
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
 const app = express();
 
 app.use(express.json()); // to accept json data
-app.use(cors({
-  origin:"http://localhost:3000"
-}))
-// app.get("/", (req, res) => {
-//   res.send("API Running!");
-// });
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+
+
+
+app.get("/", (req, res) => {
+  res.send("API Running!");
+});
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
@@ -45,7 +49,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Error Handling middlewares
 app.use(notFound);
-app.use(errorHandler); 
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 
@@ -59,12 +63,9 @@ const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-    // credentials: true,
+    credentials: true,
   },
 });
- 
-console.log(io)
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
