@@ -27,14 +27,12 @@ import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
-import NotificationBadge from "react-notification-badge";
-import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 import {Search2Icon} from '@chakra-ui/icons'
 import { Badge } from '@chakra-ui/react';
-import { PiBellRingingFill } from 'react-icons/pi';
+import baseUrl from '../../baseUrl';
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -87,7 +85,7 @@ function SideDrawer() {
         credentials: true
       };
 
-      const { data } = await axios.get(`http://localhost:8000/api/user?search=${search}`);
+      const { data } = await axios.get(`${baseUrl}/api/user?search=${search}`);
       console.log(data)
       setLoading(false);
       setSearchResult(data);
@@ -115,7 +113,7 @@ function SideDrawer() {
         },
         credentials: true
       };
-      const { data } = await axios.post(`http://localhost:8000/api/chat`, { userId }, config);
+      const { data } = await axios.post(`${baseUrl}/api/chat`, { userId }, config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);

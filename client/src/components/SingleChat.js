@@ -9,14 +9,15 @@ import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
-// import Lottie from "react-lottie";
 import chatIcon from "../animation/chat.svg";
 import { VscSend } from "react-icons/vsc";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 import { Divider } from "@chakra-ui/react";
-const ENDPOINT = "http://localhost:8000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+import baseUrl from "../baseUrl";
+
+const ENDPOINT = "http://localhost:8000"; 
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -47,7 +48,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `http://localhost:8000/api/message/${selectedChat._id}`,
+        `${baseUrl}/api/message/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -83,7 +84,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "http://localhost:8000/api/message/",
+          `${baseUrl}/api/message/`,
           {
             content: newMessage,
             chatId: selectedChat._id,

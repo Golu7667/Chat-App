@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useToast, Center, Box, Text, Flex, Divider } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import baseUrl from '../../baseUrl';
+
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -51,7 +53,7 @@ const Login = () => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:8000/api/user/login",
+        `${baseUrl}/api/user/login`,
         { email, password },
         config
       );

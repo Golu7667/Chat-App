@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast, Center, Box, Text, Flex, Divider } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-
+import baseUrl from '../../baseUrl';
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -17,8 +17,6 @@ const Signup = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmpassword, setConfirmpassword] = useState();
-  const [pic, setPic] = useState();
-  const [picLoading, setPicLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate=useNavigate();
 
@@ -63,7 +61,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:8000/api/user",
+        `${baseUrl}/api/user`,
         {
           name,
           email,
@@ -96,51 +94,7 @@ const Signup = () => {
     }
   };
 
-  const postDetails = (pics) => {
-    setPicLoading(true);
-    if (pics === undefined) {
-      toast({
-        title: "Please Select an Image!",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      return;
-    }
-    console.log(pics);
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-          console.log(data.url.toString());
-          setPicLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setPicLoading(false);
-        });
-    } else {
-      toast({
-        title: "Please Select an Image!",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setPicLoading(false);
-      return;
-    }
-  };
-
+ 
   return (
     <>
       <Center h="100vh" w="100vw">
@@ -223,15 +177,6 @@ const Signup = () => {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <FormControl id="pic">
-        <FormLabel>Upload your Picture</FormLabel>
-        <Input
-          type="file"
-          p={1.5}
-          accept="image/*"
-          onChange={(e) => postDetails(e.target.files[0])}
-        />
-      </FormControl>
                 <Button
                   colorScheme="blue"
                   width="100%"
