@@ -16,6 +16,7 @@ app.use(express.json()); // to accept json data
 app.use(
   cors({
     origin: "https://chat-app-two-pi-40.vercel.app",
+    // origin:"http://localhost:3000",
   })
 );
 
@@ -62,6 +63,7 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     origin: "https://chat-app-two-pi-40.vercel.app",
+    // origin:"http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   },

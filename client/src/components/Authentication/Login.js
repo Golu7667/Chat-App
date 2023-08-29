@@ -28,7 +28,7 @@ const Login = () => {
     }else{
       navigate('/')
     }
-  }, [loading]);
+  }, [navigate]);
  
 
   const submitHandler = async () => {
