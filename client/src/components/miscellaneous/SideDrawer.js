@@ -85,7 +85,7 @@ function SideDrawer() {
         credentials: true
       };
 
-      const { data } = await axios.get(`${baseUrl}/api/user?search=${search}`);
+      const { data } = await axios.get(`${baseUrl}/api/user?search=${search}`,{user},config);
       console.log(data)
       setLoading(false);
       setSearchResult(data);
