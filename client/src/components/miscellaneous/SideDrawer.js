@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Input } from "@chakra-ui/input";
@@ -50,8 +49,8 @@ function SideDrawer() {
     chats,
     setChats,
   } = ChatState();
-  const notificationBadgeRef = useRef(false);
-  console.log(notification,notificationBadgeRef)
+  
+ 
   
 
   const toast = useToast();
@@ -64,6 +63,9 @@ function SideDrawer() {
   };
 
   const handleSearch = async () => {
+
+  
+
     if (!search) {
       toast({
         title: "Please Enter something in search",
@@ -82,11 +84,28 @@ function SideDrawer() {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
-        credentials: true
+        
       };
-
-      const { data } = await axios.get(`${baseUrl}/api/user?search=${search}`,{user},config);
-      console.log(data)
+      
+      const { data } = await axios.get(`${baseUrl}/api/user?search=${search}`,config); 
+      if(data.length==0){
+        toast({
+          title: "User Not Found",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+      }
+      else{
+        toast({
+          title: "User Found",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+      }
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -98,6 +117,7 @@ function SideDrawer() {
         isClosable: true,
         position: "bottom-left",
       });
+      setLoading(false);
     }
   };
 
